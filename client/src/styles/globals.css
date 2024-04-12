@@ -1,0 +1,17 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.table-border {
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
+  padding: 20px;
+}
+
+.table {
+  cursor: pointer;
+}
+
+.btn {
+  cursor: pointer;
+}

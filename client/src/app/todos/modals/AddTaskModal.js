@@ -45,7 +45,7 @@ const AddTaskModal = ({ show, onClose, onAdd }) => {
       className={`modal fade ${show ? "show" : ""}`}
       tabIndex="-1"
       role="dialog"
-      style={{ display: show ? "block" : "none", zIndex: "10" }}
+      style={{ display: show ? "block" : "none", zIndex: "1" }}
     >
       <div className="modal-dialog" role="document">
         <div className="modal-content">

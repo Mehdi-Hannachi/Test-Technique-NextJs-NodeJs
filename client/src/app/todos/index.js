@@ -80,9 +80,7 @@ const TodoList = () => {
     setFilteredTasks(filtered);
   };
 
-  
-    /*  ************ delete Task api calling *********************** */
-  
+  /*  ************ delete Task api calling *********************** */
 
   const handleDeleteTask = async (taskId) => {
     try {
@@ -98,10 +96,8 @@ const TodoList = () => {
       return null;
     }
   };
-  
 
-    /*  ************ Add Task api calling *********************** */
-  
+  /*  ************ Add Task api calling *********************** */
 
   const handleAddTask = async (newTask) => {
     try {

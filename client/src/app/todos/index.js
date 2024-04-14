@@ -119,7 +119,6 @@ const TodoList = () => {
     <div>
       <main>
         <div className="container text-center"></div>
-
         {/* Filter Section and Add Task Button */}
         <div className="container mt-4">
           <div className="row justify-content-between align-items-center mb-3">

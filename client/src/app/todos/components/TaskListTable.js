@@ -1,8 +1,20 @@
-import { AiOutlineDelete, AiOutlineEdit } from "react-icons/ai";
+import {
+  AiOutlineDelete,
+  AiOutlineEdit,
+  AiOutlineInfoCircle,
+} from "react-icons/ai";
 import { useEffect, useState } from "react";
 import TableLoader from "@/app/Loaders/TabelLoader";
 import axios from "axios";
-import DeleteConfirmationModal from "../modals/DeleteConfirmationModal";
+import ConfirmationModal from "../modals/ConfirmationModal";
+import TaskDetailsModal from "../modals/TaskDetailsModal";
+import {
+  formatDate,
+  getPriorityText,
+  getPriorityVariant,
+  getStatusText,
+  getStatusVariant,
+} from "@/utils/functions";
 
 const TaskListTable = ({
   tasks,
@@ -13,31 +25,41 @@ const TaskListTable = ({
   const [isLoading, setIsloading] = useState(true);
   const [editedTaskId, setEditedTaskId] = useState(null);
   const [editedStatus, setEditedStatus] = useState("");
+  const [selectedTask, setSelectedTask] = useState(null);
+  const [isEdit, setIsEdit] = useState(null);
+  const [showConfirmation, setShowConfirmation] = useState(false);
+  const [taskIdToDelete, setTaskIdToDelete] = useState(null);
+  const [taskIdToEdit, setTaskIdToEdit] = useState(null);
+
+  const handleTaskClick = (task) => {
+    setSelectedTask(task);
+  };
+  const handleCloseModal = () => {
+    setSelectedTask(null);
+  };
+
+  const handleDeleteClick = (taskId) => {
+    setIsEdit(false);
+    setTaskIdToDelete(taskId);
+    setShowConfirmation(true);
+  };
 
   const handleEditClick = (taskId, status) => {
     setEditedTaskId(taskId);
     setEditedStatus(status);
-  };
-  const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
-  const [taskIdToDelete, setTaskIdToDelete] = useState(null);
-
-  const handleDeleteClick = (taskId) => {
-    console.log(taskId);
-    setTaskIdToDelete(taskId);
-    setShowDeleteConfirmation(true);
   };
 
   const handleConfirmDelete = () => {
     if (taskIdToDelete) {
       onDelete(taskIdToDelete);
       setTaskIdToDelete(null);
-      setShowDeleteConfirmation(false);
+      setShowConfirmation(false);
     }
   };
 
-  const handleCancelDelete = () => {
+  const handleCancelConfirmation = () => {
     setTaskIdToDelete(null);
-    setShowDeleteConfirmation(false);
+    setShowConfirmation(false);
   };
 
   const handleStatusChange = (e) => {
@@ -65,75 +87,25 @@ const TaskListTable = ({
       await updateTask(taskId, editedStatus);
       setEditedTaskId(null);
       setEditedStatus("");
+      setShowConfirmation(false);
     } catch (error) {}
   };
-
+  const handleConfirmEdit = (taskId) => {
+    setIsEdit(true);
+    setTaskIdToEdit(taskId);
+    setShowConfirmation(true);
+  };
   useEffect(() => {
     setTimeout(() => {
       setIsloading(false);
     }, 1000);
   }, []);
-  const formatDate = (dateString) => {
-    const date = new Date(dateString);
-    const options = { year: "numeric", month: "short", day: "2-digit" };
-    return date.toLocaleDateString("en-US", options);
-  };
-  const getStatusText = (status) => {
-    switch (status) {
-      case "pending":
-        return "Pending";
-      case "in-progress":
-        return "In Progress";
-      case "completed":
-        return "Completed";
-      default:
-        return "";
-    }
-  };
 
-  const getStatusVariant = (status) => {
-    switch (status) {
-      case "pending":
-        return "warning";
-      case "in-progress":
-        return "info";
-      case "completed":
-        return "success";
-      default:
-        return "";
-    }
-  };
-
-  const getPriorityText = (priority) => {
-    switch (priority) {
-      case "high":
-        return "High";
-      case "medium":
-        return "Medium";
-      case "low":
-        return "Low";
-      default:
-        return "";
-    }
-  };
-
-  const getPriorityVariant = (priority) => {
-    switch (priority) {
-      case "high":
-        return "danger";
-      case "medium":
-        return "warning";
-      case "low":
-        return "info";
-      default:
-        return "";
-    }
-  };
   return isLoading ? (
     <TableLoader />
   ) : (
     <>
-      <table className="table">
+      <table className="table ">
         <thead>
           <tr>
             <th>Title</th>
@@ -194,7 +166,7 @@ const TaskListTable = ({
                   {editedTaskId === task._id ? (
                     <button
                       className="btn btn-primary"
-                      onClick={() => handleSubmit(task._id)}
+                      onClick={() => handleConfirmEdit(task._id, task.status)}
                     >
                       Save
                     </button>
@@ -207,14 +179,36 @@ const TaskListTable = ({
                     </button>
                   )}
                 </td>
+                <td>
+                  <button
+                    className=" mr-2"
+                    onClick={() => handleTaskClick(task)}
+                  >
+                    <AiOutlineInfoCircle
+                      size={20}
+                      style={{ cursor: "pointer" }}
+                    />
+                  </button>
+                </td>
               </tr>
             ))}
         </tbody>
       </table>
-      <DeleteConfirmationModal
-        show={showDeleteConfirmation}
-        onCancel={handleCancelDelete}
-        onConfirm={handleConfirmDelete}
+      <ConfirmationModal
+        show={showConfirmation}
+        onCancel={handleCancelConfirmation}
+        onConfirmDelete={handleConfirmDelete}
+        onConfirmEdit={handleConfirmEdit}
+        isEdit={isEdit}
+        handleSubmit={handleSubmit}
+        taskIdToEdit={taskIdToEdit}
+      />
+      <TaskDetailsModal
+        handleSubmit={handleSubmit}
+        task={selectedTask}
+        show={selectedTask !== null}
+        onDelete={handleDeleteClick}
+        onHide={handleCloseModal}
       />
     </>
   );

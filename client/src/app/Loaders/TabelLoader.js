@@ -4,7 +4,7 @@ import ContentLoader from "react-content-loader";
 const TableLoader = () => {
   return (
     <>
-      <div className="table">
+      <div className="table mt-4">
         <ContentLoader speed={2} viewBox="0 0 400 100">
           <rect x="0" y="0" ry="5" width="65" height="9" />
           <rect x="75" y="0" ry="5" width="65" height="9" />

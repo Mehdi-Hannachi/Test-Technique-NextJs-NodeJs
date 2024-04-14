@@ -57,8 +57,6 @@ const AddTaskModal = ({ show, onClose, onAdd }) => {
           </div>
           <div className="modal-body">
             {error && <div className="alert alert-danger">{error}</div>}
-
-            {/* Add Task Form */}
             <div className="form-group">
               <label>Title</label>
               <input

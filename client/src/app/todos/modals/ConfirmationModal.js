@@ -1,6 +1,11 @@
-import { useState } from "react";
-
-const DeleteConfirmationModal = ({ show, onCancel, onConfirm }) => {
+const ConfirmationModal = ({
+  isEdit,
+  show,
+  taskIdToEdit,
+  onCancel,
+  onConfirmDelete,
+  handleSubmit,
+}) => {
   return (
     <div
       className={`modal fade ${show ? "show" : ""}`}
@@ -11,13 +16,17 @@ const DeleteConfirmationModal = ({ show, onCancel, onConfirm }) => {
       <div className="modal-dialog" role="document">
         <div className="modal-content">
           <div className="modal-header">
-            <h5 className="modal-title">Confirm Deletion</h5>
+            <h5 className="modal-title">
+              {isEdit ? "Confirm update" : "Confirm Deletion"}
+            </h5>
             <button type="button" className="close" onClick={onCancel}>
               <span>&times;</span>
             </button>
           </div>
           <div className="modal-body">
-            Are you sure you want to delete this task?
+            {isEdit
+              ? `Are you sure to edit this item?`
+              : `Are you sure to delete this item?`}
           </div>
           <div className="modal-footer">
             <button
@@ -29,10 +38,12 @@ const DeleteConfirmationModal = ({ show, onCancel, onConfirm }) => {
             </button>
             <button
               type="button"
-              className="btn btn-danger"
-              onClick={onConfirm}
+              className={isEdit ? "btn btn-primary" : "btn btn-danger"}
+              onClick={
+                isEdit ? () => handleSubmit(taskIdToEdit) : onConfirmDelete
+              }
             >
-              Delete
+              {isEdit ? "Edit" : "Delete"}
             </button>
           </div>
         </div>
@@ -41,4 +52,4 @@ const DeleteConfirmationModal = ({ show, onCancel, onConfirm }) => {
   );
 };
 
-export default DeleteConfirmationModal;
+export default ConfirmationModal;

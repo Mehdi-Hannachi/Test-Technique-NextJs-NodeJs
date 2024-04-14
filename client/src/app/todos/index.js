@@ -3,6 +3,7 @@ import { AiOutlineWarning } from "react-icons/ai";
 import AddTaskModal from "./modals/AddTaskModal";
 import TaskListTable from "./components/TaskListTable";
 import axios from "axios";
+import { FaSearch } from "react-icons/fa";
 
 const TodoList = () => {
   const [showAddModal, setShowAddModal] = useState(false);
@@ -116,97 +117,95 @@ const TodoList = () => {
   };
 
   return (
-    <div>
-      <main>
-        <div className="container text-center"></div>
-        {/* Filter Section and Add Task Button */}
-        <div className="container mt-4">
-          <div className="row justify-content-between align-items-center mb-3">
-            <div className="col-md-4">
-              <div className="btn-group" role="group">
-                <button
-                  className={`btn btn-secondary ${
-                    statusFilter === "" ? "active" : ""
-                  }`}
-                  onClick={() => handleStatusFilterChange("")}
-                >
-                  All Status
-                </button>
-                <button
-                  className={`btn btn-secondary ${
-                    statusFilter === "pending" ? "active" : ""
-                  }`}
-                  onClick={() => handleStatusFilterChange("pending")}
-                >
-                  Pending
-                </button>
-                <button
-                  className={`btn btn-secondary ${
-                    statusFilter === "in-progress" ? "active" : ""
-                  }`}
-                  onClick={() => handleStatusFilterChange("in-progress")}
-                >
-                  In Progress
-                </button>
-                <button
-                  className={`btn btn-secondary ${
-                    statusFilter === "completed" ? "active" : ""
-                  }`}
-                  onClick={() => handleStatusFilterChange("completed")}
-                >
-                  Completed
-                </button>
-              </div>
-            </div>
-            <div className="col-md-4">
-              <div className="btn-group" role="group">
-                <button
-                  className={`btn btn-secondary ${
-                    priorityFilter === "" ? "active" : ""
-                  }`}
-                  onClick={() => handlePriorityFilterChange("")}
-                >
-                  All Priority
-                </button>
-                <button
-                  className={`btn btn-secondary ${
-                    priorityFilter === "high" ? "active" : ""
-                  }`}
-                  onClick={() => handlePriorityFilterChange("high")}
-                >
-                  High
-                </button>
-                <button
-                  className={`btn btn-secondary ${
-                    priorityFilter === "medium" ? "active" : ""
-                  }`}
-                  onClick={() => handlePriorityFilterChange("medium")}
-                >
-                  Medium
-                </button>
-                <button
-                  className={`btn btn-secondary ${
-                    priorityFilter === "low" ? "active" : ""
-                  }`}
-                  onClick={() => handlePriorityFilterChange("low")}
-                >
-                  Low
-                </button>
-              </div>
-            </div>
-            <div className="col-md-4 text-md-right">
+    <>
+      <div className="container mt-4">
+        <div className="row justify-content-between align-items-center mb-3">
+          <div className="col-md-4 mt-2">
+            <div className="btn-group" role="group">
               <button
-                className="btn btn-primary"
-                onClick={() => setShowAddModal(true)}
+                className={`btn btn-secondary btn-sm ${
+                  statusFilter === "" ? "active" : ""
+                }`}
+                onClick={() => handleStatusFilterChange("")}
               >
-                Add Task
+                All Status
+              </button>
+              <button
+                className={`btn btn-secondary btn-sm ${
+                  statusFilter === "pending" ? "active" : ""
+                }`}
+                onClick={() => handleStatusFilterChange("pending")}
+              >
+                Pending
+              </button>
+              <button
+                className={`btn btn-secondary btn-sm ${
+                  statusFilter === "in-progress" ? "active" : ""
+                }`}
+                onClick={() => handleStatusFilterChange("in-progress")}
+              >
+                In Progress
+              </button>
+              <button
+                className={`btn btn-secondary btn-sm ${
+                  statusFilter === "completed" ? "active" : ""
+                }`}
+                onClick={() => handleStatusFilterChange("completed")}
+              >
+                Completed
               </button>
             </div>
           </div>
+          <div className="col-md-4 mt-2">
+            <div className="btn-group" role="group">
+              <button
+                className={`btn btn-secondary btn-sm ${
+                  priorityFilter === "" ? "active" : ""
+                }`}
+                onClick={() => handlePriorityFilterChange("")}
+              >
+                All Priority
+              </button>
+              <button
+                className={`btn btn-secondary btn-sm ${
+                  priorityFilter === "high" ? "active" : ""
+                }`}
+                onClick={() => handlePriorityFilterChange("high")}
+              >
+                High
+              </button>
+              <button
+                className={`btn btn-secondary btn-sm ${
+                  priorityFilter === "medium" ? "active" : ""
+                }`}
+                onClick={() => handlePriorityFilterChange("medium")}
+              >
+                Medium
+              </button>
+              <button
+                className={`btn btn-secondary btn-sm ${
+                  priorityFilter === "low" ? "active" : ""
+                }`}
+                onClick={() => handlePriorityFilterChange("low")}
+              >
+                Low
+              </button>
+            </div>
+          </div>
+          <div className="col-md-4 text-md-right mt-2">
+            <button
+              className="btn btn-primary btn-sm"
+              onClick={() => setShowAddModal(true)}
+            >
+              Add Task
+            </button>
+          </div>
         </div>
+      </div>
 
-        {/* Search Bar */}
-        <div className="container mt-4">
+      {/* Search Bar */}
+      <div className="container mt-4">
+        <div className="input-group">
           <input
             type="text"
             className="form-control"
@@ -214,35 +213,40 @@ const TodoList = () => {
             value={searchTerm}
             onChange={(e) => handleSearch(e.target.value)}
           />
+          <div className="input-group-append">
+            <span className="input-group-text">
+              <FaSearch />
+            </span>
+          </div>
         </div>
+      </div>
 
-        {/* Task List Table */}
-        <div className="container table-border mt-4">
-          {filteredTasks && filteredTasks.length === 0 ? (
-            <div className="d-flex justify-content-center align-items-center">
-              <div className="text-center">
-                <AiOutlineWarning size={50} style={{ marginBottom: 10 }} />
-                <p>Empty</p>
-              </div>
+      {/* Task List Table */}
+      <div className="container table-border mt-4">
+        {filteredTasks && filteredTasks.length === 0 ? (
+          <div className="d-flex justify-content-center align-items-center">
+            <div className="text-center">
+              <AiOutlineWarning size={50} style={{ marginBottom: 10 }} />
+              <p>Empty</p>
             </div>
-          ) : (
-            <TaskListTable
-              tasks={filteredTasks}
-              onDelete={handleDeleteTask}
-              setInitialTasks={setInitialTasks}
-              setFilteredTasks={setFilteredTasks}
-            />
-          )}
-        </div>
-
+          </div>
+        ) : (
+          <TaskListTable
+            tasks={filteredTasks}
+            onDelete={handleDeleteTask}
+            setInitialTasks={setInitialTasks}
+            setFilteredTasks={setFilteredTasks}
+            filteredTasks={filteredTasks}
+          />
+        )}
         {/* Add Task Modal */}
         <AddTaskModal
           show={showAddModal}
           onClose={() => setShowAddModal(false)}
           onAdd={handleAddTask}
         />
-      </main>
-    </div>
+      </div>
+    </>
   );
 };
 

@@ -31,14 +31,14 @@ const ConfirmationModal = ({
           <div className="modal-footer">
             <button
               type="button"
-              className="btn btn-secondary"
+              className="btn btn-secondary btn-sm"
               onClick={onCancel}
             >
               Cancel
             </button>
             <button
               type="button"
-              className={isEdit ? "btn btn-primary" : "btn btn-danger"}
+              className={isEdit ? "btn btn-primary btn-sm" : "btn btn-danger btn-sm"}
               onClick={
                 isEdit ? () => handleSubmit(taskIdToEdit) : onConfirmDelete
               }

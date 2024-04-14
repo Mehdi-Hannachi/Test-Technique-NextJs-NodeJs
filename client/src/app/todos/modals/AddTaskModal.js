@@ -134,14 +134,14 @@ const AddTaskModal = ({ show, onClose, onAdd }) => {
           <div className="modal-footer">
             <button
               type="button"
-              className="btn btn-secondary"
+              className="btn btn-secondary btn-sm"
               onClick={onClose}
             >
               Close
             </button>
             <button
               type="button"
-              className="btn btn-primary"
+              className="btn btn-primary btn-sm"
               onClick={handleAddTask}
             >
               Add Task

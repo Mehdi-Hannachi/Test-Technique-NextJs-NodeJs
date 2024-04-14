@@ -72,7 +72,7 @@ const TaskDetailsModal = ({ show, task, onHide }) => {
               <div className="modal-footer">
                 <button
                   type="button"
-                  className="btn btn-secondary"
+                  className="btn btn-secondary btn-sm"
                   onClick={onHide}
                 >
                   Close
